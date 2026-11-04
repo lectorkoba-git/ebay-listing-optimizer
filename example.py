@@ -11,8 +11,11 @@ APIFY_TOKEN = os.getenv("APIFY_TOKEN", "YOUR_APIFY_TOKEN")
 client = ApifyClient(APIFY_TOKEN)
 
 run_input = {
-    # Provide an eBay Item ID or full listing URL
-    "itemId": "168820368378",
+    # Provide 1 to 10 eBay Item IDs or full listing URLs (processed in parallel)
+    "itemIds": [
+        "168820368378",
+        "227470769942",
+    ],
     "descriptionTemplate": "clean",
     "analyzeImages": True,
 }

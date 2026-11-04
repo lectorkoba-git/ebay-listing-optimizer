@@ -2,11 +2,11 @@
 
 [![eBay AI Listing Optimizer](https://apify.com/actor-badge?actor=magic-scraper/ebay-listing-optimizer)](https://apify.com/magic-scraper/ebay-listing-optimizer)
 ![Free Tier](https://img.shields.io/badge/Apify%20Free%20Tier-$5%20Monthly%20Credit-blue?style=flat-square)
-![Pay-Per-Result](https://img.shields.io/badge/Pricing-$0.10%20%2F%20listing-blue?style=flat-square)
+![Pay-Per-Result](https://img.shields.io/badge/Pricing-$0.05%20%2F%20listing-blue?style=flat-square)
 ![No Cookies Required](https://img.shields.io/badge/Cookies-Not%20Required-success?style=flat-square)
 ![Export](https://img.shields.io/badge/Export-JSON%20|%20CSV%20|%20HTML-orange?style=flat-square)
 
-Python, Node.js and REST examples for the **[eBay AI Listing Optimizer](https://apify.com/magic-scraper/ebay-listing-optimizer)** on Apify: optimize any eBay listing with AI. Enter one listing ID and get ten 78–80 character keyword titles, official category Item Specifics mapped from eBay's taxonomy, up to 5 photos analyzed via Vision AI, and a responsive HTML description ready to paste into eBay.
+Python, Node.js and REST examples for the **[eBay AI Listing Optimizer](https://apify.com/magic-scraper/ebay-listing-optimizer)** on Apify: optimize 1 to 10 eBay listings in parallel with AI. Enter listing IDs and get ten 78–80 character keyword titles, official category Item Specifics mapped from eBay's taxonomy, up to 5 photos analyzed via Vision AI, and responsive HTML descriptions ready to paste into eBay.
 
 > ⚡ **No code needed:** 👉 **[Run it in your browser on Apify (free $5 monthly credit)](https://apify.com/magic-scraper/ebay-listing-optimizer)**
 
@@ -15,7 +15,7 @@ Python, Node.js and REST examples for the **[eBay AI Listing Optimizer](https://
 ## 🎯 Who is this for?
 
 - **eBay Sellers & Resellers:** Boost Cassini SEO ranking and search visibility with keyword-dense 78–80 character titles.
-- **Listing Agencies & Virtual Assistants:** Automate listing optimization and copywriting across any eBay category.
+- **Listing Agencies & Virtual Assistants:** Automate listing optimization and copywriting across any eBay category in parallel batches.
 - **Dropshippers:** Upgrade supplier descriptions into professional, branded HTML templates with verified specifics.
 - **E-Commerce Automation:** Integrate listing optimization directly into your inventory software via REST API.
 
@@ -25,13 +25,14 @@ Python, Node.js and REST examples for the **[eBay AI Listing Optimizer](https://
 
 | Feature | Details |
 | :--- | :--- |
-| **Pricing** | $0.10 per optimized listing + $0.00005 start fee; **50 free listing optimizations/month** with Apify's $5 free tier |
+| **Pricing** | $0.05 per optimized listing + $0.00005 start fee; **100 free listing optimizations/month** with Apify's $5 free tier |
+| **Batch Processing** | Process 1 to 10 listings simultaneously in parallel |
 | **Ten 78–80 Chars Titles** | Generates 10 full-length candidate titles strictly adhering to eBay's 80-character maximum without cutting words |
 | **Vision AI (up to 5 photos)** | Reads labels, OEM/MPN codes, barcodes, condition notes and materials directly from product images |
 | **Official Taxonomy** | Automatically queries eBay's official Taxonomy API to extract required, recommended and allowed aspect values |
 | **HTML Templates** | 4 customizable responsive layouts: `clean`, `technical`, `catalog`, and `premium` |
-| **No API Key Required** | Built-in AI model, proxy rotation and eBay API handling are included in the price |
-| **Fast Execution** | ~60–140 seconds per listing |
+| **No API Key Required** | Built-in AI model and official eBay API handling are included in the price |
+| **Fast Execution** | ~60–140 seconds per batch |
 
 ---
 
@@ -50,9 +51,9 @@ from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")
 
-# Run the actor on a listing ID
+# Run the actor on a batch of listings in parallel
 run = client.actor("magic-scraper/ebay-listing-optimizer").call(run_input={
-    "itemId": "168820368378",
+    "itemIds": ["168820368378", "227470769942"],
     "descriptionTemplate": "clean",
     "analyzeImages": True
 })
@@ -60,6 +61,7 @@ run = client.actor("magic-scraper/ebay-listing-optimizer").call(run_input={
 # Print results
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     opt = item["optimized_listing"]
+    print("Item ID:", item["item_id"])
     print("Optimized Title:", opt["optimized_title"])
     print("Length:", opt["title_length"])
     print("HTML Description:", opt["html_description"][:200], "...")
@@ -79,13 +81,15 @@ const client = new ApifyClient({
 });
 
 const run = await client.actor('magic-scraper/ebay-listing-optimizer').call({
-    itemId: '168820368378',
+    itemIds: ['168820368378', '227470769942'],
     descriptionTemplate: 'clean',
     analyzeImages: true,
 });
 
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items[0].optimized_listing);
+for (const item of items) {
+    console.log(item.item_id, item.optimized_listing.optimized_title);
+}
 ```
 
 ### cURL / REST API
@@ -94,7 +98,7 @@ console.log(items[0].optimized_listing);
 curl "https://api.apify.com/v2/acts/magic-scraper~ebay-listing-optimizer/runs?token=YOUR_APIFY_TOKEN" \
   -X POST \
   -H "Content-Type: application/json" \
-  -d '{"itemId": "168820368378", "descriptionTemplate": "clean"}'
+  -d '{"itemIds": ["168820368378", "227470769942"], "descriptionTemplate": "clean"}'
 ```
 
 ---
@@ -103,7 +107,7 @@ curl "https://api.apify.com/v2/acts/magic-scraper~ebay-listing-optimizer/runs?to
 
 | Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `itemId` | String | *prefilled* | **Required.** 10–14 digit eBay item ID or `ebay.com/itm/...` listing URL. |
+| `itemIds` | Array of Strings | *prefilled* | **Required.** 1 to 10 complete 10–14 digit eBay item IDs or `/itm/` listing URLs to process in parallel. |
 | `descriptionTemplate` | String | `"clean"` | HTML description style: `"clean"`, `"technical"`, `"catalog"`, `"premium"`. |
 | `analyzeImages` | Boolean | `true` | Analyze up to 5 source photos using Vision AI for label and detail OCR. |
 | `maxCompetitors` | Integer | `8` | Number of top competitor reference titles to analyze (3–10). |
