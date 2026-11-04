@@ -1,8 +1,8 @@
 # 🏷️ eBay AI Listing Optimizer: SEO Titles, Specifics & HTML Descriptions
 
 [![eBay AI Listing Optimizer](https://apify.com/actor-badge?actor=magic-scraper/ebay-listing-optimizer)](https://apify.com/magic-scraper/ebay-listing-optimizer)
-![Free Tier](https://img.shields.io/badge/Apify%20Free%20Tier-$5%20Monthly%20Credit-blue?style=flat-square)
-![Pay-Per-Result](https://img.shields.io/badge/Pricing-$0.05%20%2F%20listing-blue?style=flat-square)
+![Free Tier](https://img.shields.io/badge/Apify%20Free%20Tier-$5%20Monthly%20Credit%20(125%20listings)-blue?style=flat-square)
+![Pay-Per-Result](https://img.shields.io/badge/Pricing-$0.04%20%2F%20listing-blue?style=flat-square)
 ![No Cookies Required](https://img.shields.io/badge/Cookies-Not%20Required-success?style=flat-square)
 ![Export](https://img.shields.io/badge/Export-JSON%20|%20CSV%20|%20HTML-orange?style=flat-square)
 
@@ -25,7 +25,7 @@ Python, Node.js and REST examples for the **[eBay AI Listing Optimizer](https://
 
 | Feature | Details |
 | :--- | :--- |
-| **Pricing** | $0.05 per optimized listing + $0.00005 start fee; **100 free listing optimizations/month** with Apify's $5 free tier |
+| **Pricing** | $0.04 per optimized listing + $0.00005 start fee; **125 free listing optimizations/month** with Apify's $5 free tier |
 | **Batch Processing** | Process 1 to 10 listings simultaneously in parallel |
 | **Ten 78–80 Chars Titles** | Generates 10 full-length candidate titles strictly adhering to eBay's 80-character maximum without cutting words |
 | **Vision AI (up to 5 photos)** | Reads labels, OEM/MPN codes, barcodes, condition notes and materials directly from product images |
